@@ -1,28 +1,14 @@
 package cn.super12138.todo.ui.activities
 
-import android.os.Build
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.core.view.WindowCompat
 import cn.super12138.todo.R
-import cn.super12138.todo.constants.Constants
-import cn.super12138.todo.logic.datastore.DataStoreManager
 import cn.super12138.todo.ui.pages.crash.CrashPage
-import cn.super12138.todo.ui.theme.DarkMode
-import cn.super12138.todo.ui.theme.PaletteStyle
-import cn.super12138.todo.ui.theme.ToDoTheme
-import cn.super12138.todo.utils.VibrationUtils
 
-class CrashActivity : ComponentActivity() {
+class CrashActivity : BaseActivity() {
     companion object {
         const val BRAND_PREFIX = "Brand:      "
         const val MODEL_PREFIX = "Model:      "
@@ -32,50 +18,19 @@ class CrashActivity : ComponentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            window.isNavigationBarContrastEnforced = false
-        }
+        configureWindow()
         super.onCreate(savedInstanceState)
 
         val crashLogs = intent.getStringExtra("crash_logs")
 
         setContent {
-            val dynamicColor by DataStoreManager.dynamicColorFlow.collectAsState(initial = Constants.PREF_DYNAMIC_COLOR_DEFAULT)
-            val paletteStyle by DataStoreManager.paletteStyleFlow.collectAsState(initial = Constants.PREF_PALETTE_STYLE_DEFAULT)
-            val contrastLevel by DataStoreManager.contrastLevelFlow.collectAsState(initial = Constants.PREF_CONTRAST_LEVEL_DEFAULT)
-            val darkMode by DataStoreManager.darkModeFlow.collectAsState(initial = Constants.PREF_DARK_MODE_DEFAULT)
-            val hapticFeedback by DataStoreManager.hapticFeedbackFlow.collectAsState(initial = Constants.PREF_HAPTIC_FEEDBACK_DEFAULT)
-
-            val darkTheme = when (DarkMode.fromId(darkMode)) {
-                DarkMode.FollowSystem -> isSystemInDarkTheme()
-                DarkMode.Light -> false
-                DarkMode.Dark -> true
-            }
-            // 配置状态栏和底部导航栏的颜色（在用户切换深色模式时）
-            // https://github.com/dn0ne/lotus/blob/master/app/src/main/java/com/dn0ne/player/MainActivity.kt#L266
-            LaunchedEffect(darkMode) {
-                WindowCompat.getInsetsController(window, window.decorView).apply {
-                    isAppearanceLightStatusBars = !darkTheme
-                    isAppearanceLightNavigationBars = !darkTheme
-                }
-            }
-
-            LaunchedEffect(hapticFeedback) {
-                VibrationUtils.setEnabled(hapticFeedback)
-            }
-
-            ToDoTheme(
-                darkTheme = darkTheme,
-                style = PaletteStyle.fromId(paletteStyle),
-                contrastLevel = contrastLevel.toDouble(),
-                dynamicColor = dynamicColor
-            ) {
+            App {
                 CrashPage(
                     crashLog = crashLogs ?: stringResource(R.string.tip_no_crash_logs),
                     exitApp = { finishAffinity() },
                     modifier = Modifier.fillMaxSize()
                 )
+
             }
         }
     }
