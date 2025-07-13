@@ -113,4 +113,6 @@
     <string name="tip_no_category_page">There are no custom categories at the moment.</string>
     <string name="tip_default_category">Default Category, please modify</string>
     <string name="label_customization">Customization</string>
+    <string name="pref_language">Language</string>
+    <string name="pref_language_desc">Change the app display language</string>
 </resources>

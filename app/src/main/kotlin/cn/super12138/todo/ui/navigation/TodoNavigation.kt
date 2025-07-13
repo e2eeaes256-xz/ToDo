@@ -16,6 +16,7 @@ import cn.super12138.todo.ui.pages.settings.SettingsAppearance
 import cn.super12138.todo.ui.pages.settings.SettingsData
 import cn.super12138.todo.ui.pages.settings.SettingsDataCategory
 import cn.super12138.todo.ui.pages.settings.SettingsInterface
+import cn.super12138.todo.ui.pages.settings.SettingsInterfaceLanguage
 import cn.super12138.todo.ui.pages.settings.SettingsMain
 import cn.super12138.todo.ui.theme.materialSharedAxisXIn
 import cn.super12138.todo.ui.theme.materialSharedAxisXOut
@@ -106,7 +107,16 @@ fun TodoNavigation(
             }
 
             composable(TodoScreen.SettingsInterface.name) {
-                SettingsInterface(onNavigateUp = { navController.navigateUp() })
+                SettingsInterface(
+                    toLanguagePage  = { navController.navigate(TodoScreen.SettingsInterfaceLanguage.name) },
+                    onNavigateUp = { navController.navigateUp() }
+                )
+            }
+
+            composable(TodoScreen.SettingsInterfaceLanguage.name) {
+                SettingsInterfaceLanguage(
+                    onNavigateUp = { navController.navigateUp() }
+                )
             }
 
             composable(TodoScreen.SettingsData.name) {

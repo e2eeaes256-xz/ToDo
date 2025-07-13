@@ -44,7 +44,7 @@ fun SettingsRadioDialog(
                     .verticalScroll(rememberScrollState())
             ) {
                 options.forEach { option ->
-                    RadioItem(
+                    DialogRadioItem(
                         selected = option == currentOptions,
                         text = option.text,
                         onClick = {
@@ -61,7 +61,7 @@ fun SettingsRadioDialog(
 }
 
 @Composable
-fun RadioItem(
+fun DialogRadioItem(
     selected: Boolean,
     text: String,
     onClick: () -> Unit,

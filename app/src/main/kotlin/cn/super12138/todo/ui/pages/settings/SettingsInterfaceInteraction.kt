@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Sort
 import androidx.compose.material.icons.outlined.Checklist
 import androidx.compose.material.icons.outlined.Shield
+import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material.icons.outlined.Vibration
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
@@ -38,6 +39,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsInterface(
+    toLanguagePage: () -> Unit,
     onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -85,6 +87,14 @@ fun SettingsInterface(
 
             item {
                 SettingsCategory(stringResource(R.string.pref_category_global))
+            }
+            item {
+                SettingsItem(
+                    leadingIcon = Icons.Outlined.Translate, // 或者是 Icons.Outlined.Language
+                    title = stringResource(R.string.pref_language),
+                    description = stringResource(R.string.pref_language_desc),
+                    onClick = toLanguagePage
+                )
             }
             item {
                 SwitchSettingsItem(

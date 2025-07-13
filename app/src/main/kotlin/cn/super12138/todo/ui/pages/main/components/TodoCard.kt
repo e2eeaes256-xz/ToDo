@@ -40,7 +40,6 @@ import cn.super12138.todo.logic.model.Priority
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.utils.VibrationUtils
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalSharedTransitionApi::class)
 @Composable
 fun TodoCard(
     modifier: Modifier = Modifier,
@@ -49,7 +48,7 @@ fun TodoCard(
     category: String,
     completed: Boolean,
     priority: Priority,
-    selected: Boolean,
+    selected: () -> Boolean,
     onCardClick: () -> Unit = {},
     onCardLongClick: () -> Unit = {},
     onChecked: () -> Unit = {},
@@ -78,7 +77,7 @@ fun TodoCard(
                 )
                 .padding(horizontal = 15.dp)
         ) {
-            AnimatedVisibility(selected) {
+            AnimatedVisibility(selected()) {
                 Box(
                     Modifier
                         .padding(end = 15.dp)
@@ -120,37 +119,37 @@ fun TodoCard(
                     }
                 ) {
                     // with(sharedTransitionScope) {
-                        Text(
-                            text = content,
-                            style = MaterialTheme.typography.titleLarge,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                            modifier = Modifier
-                                /*.sharedBounds(
-                                    sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CONTENT_TRANSITION}_$id"),
-                                    animatedVisibilityScope = animatedVisibilityScope
-                                )*/
-                                .basicMarquee() // TODO: 后续评估性能影响
-                        )
+                    Text(
+                        text = content,
+                        style = MaterialTheme.typography.titleLarge,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
+                        modifier = Modifier
+                            /*.sharedBounds(
+                                sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CONTENT_TRANSITION}_$id"),
+                                animatedVisibilityScope = animatedVisibilityScope
+                            )*/
+                            .basicMarquee() // TODO: 后续评估性能影响
+                    )
                     // }
                 }
 
                 // with(sharedTransitionScope) {
-                    Text(
-                        text = category.ifEmpty { stringResource(R.string.tip_default_category) },
-                        style = MaterialTheme.typography.labelMedium,
-                        textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
-                        maxLines = 1,
-                        /*modifier = Modifier.sharedBounds(
-                            sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CATEGORY_TRANSITION}_$id"),
-                            animatedVisibilityScope = animatedVisibilityScope
-                        )*/
-                    )
+                Text(
+                    text = category.ifEmpty { stringResource(R.string.tip_default_category) },
+                    style = MaterialTheme.typography.labelMedium,
+                    textDecoration = if (completed) TextDecoration.LineThrough else TextDecoration.None,
+                    maxLines = 1,
+                    /*modifier = Modifier.sharedBounds(
+                        sharedContentState = rememberSharedContentState("${Constants.KEY_TODO_CATEGORY_TRANSITION}_$id"),
+                        animatedVisibilityScope = animatedVisibilityScope
+                    )*/
+                )
                 // }
             }
 
-            AnimatedVisibility(!selected && !completed) {
+            AnimatedVisibility(!selected() && !completed) {
                 IconButton(
                     onClick = {
                         VibrationUtils.performHapticFeedback(view)
