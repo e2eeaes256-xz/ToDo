@@ -41,5 +41,5 @@ object Constants {
     const val PREF_CATEGORIES_DEFAULT = "[]"
 
     const val PREF_LANGUAGE = "language"
-    const val PREF_LANGUAGE_DEFAULT = "system" // Follow System
+    const val PREF_LANGUAGE_DEFAULT = 0 // Follow System
 }

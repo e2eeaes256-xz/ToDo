@@ -1,6 +1,7 @@
 package cn.super12138.todo.ui.activities
 
 import android.os.Build
+import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
@@ -8,12 +9,15 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
 import cn.super12138.todo.constants.Constants
 import cn.super12138.todo.logic.datastore.DataStoreManager
+import cn.super12138.todo.ui.components.Languages
+import cn.super12138.todo.ui.components.LocalLanguage
 import cn.super12138.todo.ui.theme.DarkMode
 import cn.super12138.todo.ui.theme.PaletteStyle
 import cn.super12138.todo.ui.theme.ToDoTheme
@@ -36,6 +40,8 @@ abstract class BaseActivity : ComponentActivity() {
         val darkMode by DataStoreManager.darkModeFlow.collectAsState(initial = Constants.PREF_DARK_MODE_DEFAULT)
         val secureMode by DataStoreManager.secureModeFlow.collectAsState(initial = Constants.PREF_SECURE_MODE_DEFAULT)
         val hapticFeedback by DataStoreManager.hapticFeedbackFlow.collectAsState(initial = Constants.PREF_HAPTIC_FEEDBACK_DEFAULT)
+        // 语言
+        val language by DataStoreManager.languageFlow.collectAsState(initial = Constants.PREF_LANGUAGE_DEFAULT)
 
         // 深色模式
         val darkTheme = when (DarkMode.fromId(darkMode)) {
@@ -64,18 +70,24 @@ abstract class BaseActivity : ComponentActivity() {
             }
         }
 
-        LaunchedEffect(hapticFeedback) {
-            VibrationUtils.setEnabled(hapticFeedback)
+        // 触感反馈
+        LaunchedEffect(hapticFeedback) { VibrationUtils.setEnabled(hapticFeedback) }
+
+        // 语言
+        LaunchedEffect(language) {
+            Log.d("TAG", "SettingsInterfaceLanguage: $language")
         }
 
-        ToDoTheme(
-            darkTheme = darkTheme,
-            style = PaletteStyle.fromId(paletteStyle),
-            contrastLevel = contrastLevel.toDouble(),
-            dynamicColor = dynamicColor
-        ) {
-            Surface(color = MaterialTheme.colorScheme.background) {
-                content()
+        CompositionLocalProvider(LocalLanguage provides Languages.fromId(language)) {
+            ToDoTheme(
+                darkTheme = darkTheme,
+                style = PaletteStyle.fromId(paletteStyle),
+                contrastLevel = contrastLevel.toDouble(),
+                dynamicColor = dynamicColor
+            ) {
+                Surface(color = MaterialTheme.colorScheme.background) {
+                    content()
+                }
             }
         }
     }

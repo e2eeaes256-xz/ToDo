@@ -15,6 +15,7 @@ class MainActivity : BaseActivity() {
         installSplashScreen()
         configureWindow()
         super.onCreate(savedInstanceState)
+
         setContent {
             val mainViewModel: MainViewModel = viewModel()
             val showConfetti = mainViewModel.showConfetti

@@ -108,7 +108,7 @@ fun TodoNavigation(
 
             composable(TodoScreen.SettingsInterface.name) {
                 SettingsInterface(
-                    toLanguagePage  = { navController.navigate(TodoScreen.SettingsInterfaceLanguage.name) },
+                    toLanguagePage = { navController.navigate(TodoScreen.SettingsInterfaceLanguage.name) },
                     onNavigateUp = { navController.navigateUp() }
                 )
             }
@@ -122,13 +122,13 @@ fun TodoNavigation(
             composable(TodoScreen.SettingsData.name) {
                 SettingsData(
                     viewModel = viewModel,
-                    toCategoryManager = {navController.navigate(TodoScreen.SettingsDataCategory.name)},
+                    toCategoryManager = { navController.navigate(TodoScreen.SettingsDataCategory.name) },
                     onNavigateUp = { navController.navigateUp() }
                 )
             }
 
             composable(TodoScreen.SettingsDataCategory.name) {
-                SettingsDataCategory(onNavigateUp = {navController.navigateUp()})
+                SettingsDataCategory(onNavigateUp = { navController.navigateUp() })
             }
 
             composable(TodoScreen.SettingsAbout.name) {

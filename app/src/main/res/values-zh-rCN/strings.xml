@@ -114,4 +114,5 @@
     <string name="label_customization">自定义</string>
     <string name="pref_language">语言</string>
     <string name="pref_language_desc">更改应用界面显示的语言</string>
+    <string name="language_follow_system">跟随系统语言</string>
 </resources>

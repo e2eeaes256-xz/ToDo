@@ -39,7 +39,7 @@ object DataStoreManager {
     // 界面与交互
     private val SHOW_COMPLETED = booleanPreferencesKey(Constants.PREF_SHOW_COMPLETED)
     private val SORTING_METHOD = intPreferencesKey(Constants.PREF_SORTING_METHOD)
-    private val LANGUAGE = stringPreferencesKey(Constants.PREF_LANGUAGE)
+    private val LANGUAGE = intPreferencesKey(Constants.PREF_LANGUAGE)
     private val SECURE_MODE = booleanPreferencesKey(Constants.PREF_SECURE_MODE)
     private val HAPTIC_FEEDBACK = booleanPreferencesKey(Constants.PREF_HAPTIC_FEEDBACK)
 
@@ -83,7 +83,7 @@ object DataStoreManager {
         Json.decodeFromString(preferences[CATEGORIES] ?: Constants.PREF_CATEGORIES_DEFAULT)
     }
 
-    val languageFlow: Flow<String> = dataStore.data.map { preferences ->
+    val languageFlow: Flow<Int> = dataStore.data.map { preferences ->
         preferences[LANGUAGE] ?: Constants.PREF_LANGUAGE_DEFAULT
     }
 
@@ -142,7 +142,7 @@ object DataStoreManager {
         }
     }
 
-    suspend fun setLanguage(value: String) {
+    suspend fun setLanguage(value: Int) {
         dataStore.edit { preferences ->
             preferences[LANGUAGE] = value
         }

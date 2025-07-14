@@ -1,6 +1,6 @@
 package cn.super12138.todo.ui.pages.settings.components.language
 
-import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,16 +14,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.core.os.ConfigurationCompat
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cn.super12138.todo.ui.TodoDefaults
-import java.util.Locale
+import cn.super12138.todo.ui.components.Languages
+import cn.super12138.todo.utils.VibrationUtils
 
 @Composable
-fun CategoryItem(
+fun LanguageItem(
     modifier: Modifier = Modifier,
+    language: Languages,
     selected: Boolean,
-    name: String,
-    onSelected: (String) -> Unit = {},
+    onSelected: (Languages) -> Unit = {},
 ) {
     val view = LocalView.current
     Row(
@@ -31,8 +33,14 @@ fun CategoryItem(
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(MaterialTheme.shapes.large)
+            .clickable(
+                onClick = {
+                    VibrationUtils.performHapticFeedback(view)
+                    onSelected(language)
+                }
+            )
             .padding(
-                horizontal = TodoDefaults.settingsItemHorizontalPadding,
+                horizontal = TodoDefaults.settingsItemHorizontalPadding / 2,
                 vertical = TodoDefaults.settingsItemVerticalPadding / 2
             ),
         verticalAlignment = Alignment.CenterVertically
@@ -40,21 +48,19 @@ fun CategoryItem(
         RadioButton(
             selected = selected,
             onClick = {
-                Locale.getDefault()
-                val config = Configuration()
-                config.setLocale(Locale.US)
-
-
+                VibrationUtils.performHapticFeedback(view)
+                onSelected(language)
             }
         )
         Text(
-            text = name,
+            text = language.displayName(),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.bodyLarge.copy(
                 color = MaterialTheme.colorScheme.onSurface,
+                fontSize = 17.sp
             ),
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.padding(start = 12.dp)
         )
     }
 }
