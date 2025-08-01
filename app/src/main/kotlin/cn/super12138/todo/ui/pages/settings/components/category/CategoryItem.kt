@@ -17,7 +17,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.sp
 import cn.super12138.todo.R
 import cn.super12138.todo.ui.TodoDefaults
 import cn.super12138.todo.utils.VibrationUtils
@@ -26,6 +25,7 @@ import cn.super12138.todo.utils.VibrationUtils
 fun CategoryItem(
     modifier: Modifier = Modifier,
     name: String,
+    onClick: (String) -> Unit = {},
     onDelete: (String) -> Unit = {}
 ) {
     val view = LocalView.current
@@ -34,6 +34,12 @@ fun CategoryItem(
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(MaterialTheme.shapes.large)
+            .clickable(
+                onClick = {
+                    VibrationUtils.performHapticFeedback(view)
+                    onClick(name)
+                }
+            )
             .padding(
                 horizontal = TodoDefaults.settingsItemHorizontalPadding,
                 vertical = TodoDefaults.settingsItemVerticalPadding / 2
