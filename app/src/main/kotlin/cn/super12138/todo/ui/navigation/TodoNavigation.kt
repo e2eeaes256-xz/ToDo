@@ -15,6 +15,8 @@ import cn.super12138.todo.ui.pages.settings.SettingsAboutLicence
 import cn.super12138.todo.ui.pages.settings.SettingsAppearance
 import cn.super12138.todo.ui.pages.settings.SettingsData
 import cn.super12138.todo.ui.pages.settings.SettingsDataCategory
+import cn.super12138.todo.ui.pages.settings.SettingsDeveloperOptions
+import cn.super12138.todo.ui.pages.settings.SettingsDeveloperOptionsPadding
 import cn.super12138.todo.ui.pages.settings.SettingsInterface
 import cn.super12138.todo.ui.pages.settings.SettingsInterfaceLanguage
 import cn.super12138.todo.ui.pages.settings.SettingsMain
@@ -135,6 +137,7 @@ fun TodoNavigation(
                 SettingsAbout(
                     //toSpecialPage = { navController.navigate(TodoScreen.SettingsAboutSpecial.name) },
                     toLicencePage = { navController.navigate(TodoScreen.SettingsAboutLicence.name) },
+                    toDevPage = { navController.navigate(TodoScreen.SettingsDev.name) },
                     onNavigateUp = { navController.navigateUp() },
                 )
             }
@@ -145,6 +148,16 @@ fun TodoNavigation(
 
             composable(TodoScreen.SettingsAboutLicence.name) {
                 SettingsAboutLicence(onNavigateUp = { navController.navigateUp() })
+            }
+
+            composable(TodoScreen.SettingsDev.name) {
+                SettingsDeveloperOptions(
+                    toPaddingPage = { navController.navigate(TodoScreen.SettingsDevPadding.name) },
+                    onNavigateUp = { navController.navigateUp() }
+                )
+            }
+            composable(TodoScreen.SettingsDevPadding.name) {
+                SettingsDeveloperOptionsPadding(onNavigateUp = { navController.navigateUp() })
             }
         }
     }

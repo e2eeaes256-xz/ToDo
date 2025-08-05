@@ -12,5 +12,7 @@ enum class TodoScreen {
     SettingsAbout,
 
     //SettingsAboutSpecial,
-    SettingsAboutLicence
+    SettingsAboutLicence,
+    SettingsDev,
+    SettingsDevPadding
 }

@@ -115,4 +115,7 @@
     <string name="pref_language">语言</string>
     <string name="pref_language_desc">更改应用界面显示的语言</string>
     <string name="language_follow_system">跟随系统语言</string>
+    <string name="pref_developer_options">开发者选项</string>
+    <string name="pref_developer_options_desc">一些调试选项，仅供开发使用</string>
+    <string name="pref_padding">边距</string>
 </resources>

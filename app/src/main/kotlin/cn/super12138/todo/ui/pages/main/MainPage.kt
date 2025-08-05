@@ -11,6 +11,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -103,10 +104,16 @@ fun MainPage(
                 }
             }
         },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         modifier = modifier
     ) { innerPadding ->
         if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT) {
-            Column(modifier = Modifier.padding(innerPadding)) {
+            Column(
+                modifier = Modifier.padding(
+                    top = innerPadding.calculateTopPadding(),
+                    bottom = innerPadding.calculateBottomPadding()
+                )
+            ) {
                 ProgressFragment(
                     totalTasks = totalTasks,
                     completedTasks = completedTasks,
@@ -150,7 +157,12 @@ fun MainPage(
                 )
             }
         } else {
-            Row(modifier = Modifier.padding(innerPadding)) {
+            Row(
+                modifier = Modifier.padding(
+                    top = innerPadding.calculateTopPadding(),
+                    bottom = innerPadding.calculateBottomPadding()
+                )
+            ) {
                 ProgressFragment(
                     totalTasks = totalTasks,
                     completedTasks = completedTasks,
